@@ -1,0 +1,65 @@
+"use server";
+
+// 서버 액션: 폼의 버튼을 누르면 서버에서 실행되는 함수들
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { sql } from "@/lib/db";
+import { CATEGORIES } from "@/lib/categories";
+
+// 폼에서 받은 값을 정리하고, 잘못된 부분이 있으면 errors에 이유를 담는다.
+function validate(formData) {
+  const values = {
+    title: String(formData.get("title") ?? "").trim(),
+    url: String(formData.get("url") ?? "").trim(),
+    category: String(formData.get("category") ?? ""),
+    memo: String(formData.get("memo") ?? "").trim(),
+  };
+
+  const errors = {};
+  if (!values.title) errors.title = "제목을 입력해 주세요.";
+  else if (values.title.length > 200) errors.title = "제목은 200자 이하로 입력해 주세요.";
+
+  if (!isHttpUrl(values.url)) errors.url = "http:// 또는 https:// 로 시작하는 링크를 입력해 주세요.";
+
+  if (!CATEGORIES.includes(values.category)) errors.category = "카테고리를 선택해 주세요.";
+
+  if (values.memo.length > 200) errors.memo = "메모는 200자 이하로 입력해 주세요.";
+
+  return { values, errors };
+}
+
+function isHttpUrl(text) {
+  if (!/^https?:\/\//.test(text)) return false;
+  try {
+    new URL(text);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// 저장에 실패했을 때 폼에 돌려줄 상태 (입력값은 그대로 남긴다)
+function failure(prevState, values, errors, message = "") {
+  return { values, errors, message, attempt: prevState.attempt + 1 };
+}
+
+// 기사 등록
+export async function createArticle(prevState, formData) {
+  const { values, errors } = validate(formData);
+  if (Object.keys(errors).length > 0) return failure(prevState, values, errors);
+
+  try {
+    await sql`
+      INSERT INTO articles (title, url, category, memo)
+      VALUES (${values.title}, ${values.url}, ${values.category}, ${values.memo})
+    `;
+  } catch (error) {
+    console.error("기사 등록 실패:", error);
+    return failure(prevState, values, {}, "저장하지 못했어요. 잠시 후 다시 시도해 주세요.");
+  }
+
+  // 목록 화면을 새로 고치고 목록으로 이동한다.
+  revalidatePath("/");
+  redirect("/");
+}
