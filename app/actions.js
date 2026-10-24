@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { sql } from "@/lib/db";
 import { CATEGORIES } from "@/lib/categories";
+import { fetchTitle } from "@/lib/fetchTitle";
 
 // 폼에서 받은 값을 정리하고, 잘못된 부분이 있으면 errors에 이유를 담는다.
 function validate(formData) {
@@ -42,6 +43,20 @@ function isHttpUrl(text) {
 // 저장에 실패했을 때 폼에 돌려줄 상태 (입력값은 그대로 남긴다)
 function failure(prevState, values, errors, message = "") {
   return { values, errors, message, attempt: prevState.attempt + 1 };
+}
+
+// 링크에서 기사 제목 가져오기 (폼의 링크 칸을 다 입력하면 호출된다)
+export async function fetchArticleTitle(url) {
+  const failed = { error: "제목을 가져오지 못했어요. 직접 입력해 주세요." };
+  if (!isHttpUrl(String(url).trim())) return failed;
+
+  try {
+    const title = await fetchTitle(String(url).trim());
+    if (title) return { title: title.slice(0, 200) };
+  } catch (error) {
+    console.error("제목 가져오기 실패:", url, error.message);
+  }
+  return failed;
 }
 
 // 기사 등록
