@@ -16,13 +16,15 @@ export default function CategoryFilter({ selected, counts }) {
   ];
 
   return (
-    <nav aria-label="카테고리 필터" className="mb-4 flex flex-wrap gap-2">
+    // 좁은 화면(휴대폰): 4칸 격자로 같은 너비의 버튼 두 줄 (4개 + 3개)
+    // 넓은 화면(640px 이상, sm:): 한 줄로 나란히
+    <nav aria-label="카테고리 필터" className="mb-4 grid grid-cols-4 gap-2 sm:flex sm:flex-wrap">
       {items.map((item) => (
         <Link
           key={item.label}
           href={item.href}
           aria-current={item.active ? "page" : undefined}
-          className={`rounded-full border px-3 py-1 text-sm ${
+          className={`whitespace-nowrap rounded-full border px-2 py-1.5 text-center text-sm sm:px-3 sm:py-1 ${
             item.active
               ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
               : "border-zinc-300 bg-white text-zinc-700 hover:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
