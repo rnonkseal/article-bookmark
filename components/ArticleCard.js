@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CATEGORY_STYLES } from "@/lib/categories";
 
 // 등록 시각을 한국 시간으로 보기 좋게 바꾼다. (Vercel 서버는 한국 시간이 아니라서 시간대를 꼭 지정)
@@ -34,6 +35,15 @@ export default function ArticleCard({ article }) {
       {article.memo && (
         <p className="mt-1 break-words text-sm text-zinc-600 dark:text-zinc-400">{article.memo}</p>
       )}
+
+      <div className="mt-3 flex justify-end gap-1 text-sm">
+        <Link
+          href={`/articles/${article.id}/edit`}
+          className="rounded-md px-3 py-1 text-zinc-600 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+        >
+          수정
+        </Link>
+      </div>
     </li>
   );
 }

@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { sql } from "@/lib/db";
 import { CATEGORIES } from "@/lib/categories";
 import { fetchTitle } from "@/lib/fetchTitle";
+import { parseArticleId } from "@/lib/articleId";
 
 // 폼에서 받은 값을 정리하고, 잘못된 부분이 있으면 errors에 이유를 담는다.
 function validate(formData) {
@@ -75,6 +76,32 @@ export async function createArticle(prevState, formData) {
   }
 
   // 목록 화면을 새로 고치고 목록으로 이동한다.
+  revalidatePath("/");
+  redirect("/");
+}
+
+// 기사 수정 (수정 화면에서 id를 미리 묶어서 넘긴다: updateArticle.bind(null, id))
+export async function updateArticle(id, prevState, formData) {
+  const articleId = parseArticleId(id);
+  const { values, errors } = validate(formData);
+  if (Object.keys(errors).length > 0) return failure(prevState, values, errors);
+  if (!articleId) return failure(prevState, values, {}, "잘못된 기사 번호예요.");
+
+  let updated;
+  try {
+    updated = await sql`
+      UPDATE articles
+      SET title = ${values.title}, url = ${values.url}, category = ${values.category},
+          memo = ${values.memo}, updated_at = now()
+      WHERE id = ${articleId}
+      RETURNING id
+    `;
+  } catch (error) {
+    console.error("기사 수정 실패:", error);
+    return failure(prevState, values, {}, "저장하지 못했어요. 잠시 후 다시 시도해 주세요.");
+  }
+  if (updated.length === 0) return failure(prevState, values, {}, "이미 삭제된 기사예요.");
+
   revalidatePath("/");
   redirect("/");
 }
