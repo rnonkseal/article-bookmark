@@ -10,7 +10,7 @@ import { fetchArticleTitle } from "@/app/actions";
 const EMPTY = { title: "", url: "", category: "", memo: "" };
 
 const inputClass =
-  "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-base focus:border-zinc-900 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:focus:border-zinc-100";
+  "w-full rounded-lg border border-zinc-300 bg-white px-3 py-2 text-base focus:border-zinc-900 focus:outline-none placeholder:text-zinc-400 dark:border-zinc-700 dark:placeholder:text-zinc-500 dark:bg-zinc-900 dark:focus:border-zinc-100";
 
 // 입력칸 하나: 이름표(+ 오른쪽 버튼) + 입력칸 + 오류 메시지
 function Field({ label, htmlFor, error, hint, extra, children }) {
@@ -118,7 +118,15 @@ export default function ArticleForm({ action, initialValues = EMPTY, submitLabel
       </Field>
 
       <Field label="한 줄 메모" htmlFor="memo" error={errors.memo} hint="선택 · 200자까지">
-        <input id="memo" name="memo" type="text" maxLength={200} defaultValue={values.memo} className={inputClass} />
+        <input
+          id="memo"
+          name="memo"
+          type="text"
+          maxLength={200}
+          defaultValue={values.memo}
+          placeholder="예: 리포트 사례로 쓰기, 통계 자료 있음"
+          className={inputClass}
+        />
       </Field>
 
       {state.message && (
