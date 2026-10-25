@@ -105,3 +105,13 @@ export async function updateArticle(id, prevState, formData) {
   revalidatePath("/");
   redirect("/");
 }
+
+// 기사 삭제 (기사 카드에서 id를 미리 묶어서 넘긴다: deleteArticle.bind(null, id))
+// 삭제 후에는 보고 있던 화면(필터 포함)에 그대로 머문다.
+export async function deleteArticle(id) {
+  const articleId = parseArticleId(id);
+  if (!articleId) return;
+
+  await sql`DELETE FROM articles WHERE id = ${articleId}`;
+  revalidatePath("/");
+}

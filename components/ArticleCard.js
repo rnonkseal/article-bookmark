@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { CATEGORY_STYLES } from "@/lib/categories";
+import { deleteArticle } from "@/app/actions";
+import DeleteButton from "@/components/DeleteButton";
 
 // 등록 시각을 한국 시간으로 보기 좋게 바꾼다. (Vercel 서버는 한국 시간이 아니라서 시간대를 꼭 지정)
 const dateFormatter = new Intl.DateTimeFormat("ko-KR", {
@@ -43,6 +45,7 @@ export default function ArticleCard({ article }) {
         >
           수정
         </Link>
+        <DeleteButton action={deleteArticle.bind(null, article.id)} title={article.title} />
       </div>
     </li>
   );
