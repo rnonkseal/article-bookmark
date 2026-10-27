@@ -75,6 +75,8 @@ article_bookmark/
 ├── scripts/
 │   └── setup-db.mjs            ← schema.sql을 Neon에 실행 (npm run db:setup)
 ├── .env                        ← 🔒 Neon 연결 주소 (GitHub에 안 올라감)
+├── .env.example                ← 비밀번호 없는 견본 (GitHub에 올라감)
+├── vercel.json                 ← Vercel 실행 지역: 싱가포르 (Neon과 같은 지역)
 ├── .gitignore                  ← GitHub에 올리지 않을 파일 목록
 ├── package.json                ← 프로젝트 정보, 사용하는 도구 목록
 ├── PLAN.md                     ← 이 계획서
@@ -120,8 +122,8 @@ article_bookmark/
 | 7 | 수정 | 🤖 + 👤 | ✅ |
 | 8 | 삭제 (확인 창 포함) | 🤖 + 👤 | ✅ |
 | 9 | 디자인 다듬기, 모바일 대응, 빈 목록 안내, 입력 오류 메시지 | 🤖 | ✅ |
-| 10 | GitHub에 올리기 (`.env` 제외 확인) | 🤖 + 👤 | 🔄 다음 차례 |
-| 11 | Vercel 배포, 환경변수 등록 | 👤 | ⬜ |
+| 10 | GitHub에 올리기 (`.env` 제외 확인) | 🤖 + 👤 | ✅ https://github.com/rnonkseal/article-bookmark |
+| 11 | Vercel 배포, 환경변수 등록 | 👤 | 🔄 다음 차례 |
 | 12 | 배포 주소에서 최종 테스트 | 👤 | ⬜ |
 
 ---
