@@ -123,8 +123,8 @@ article_bookmark/
 | 8 | 삭제 (확인 창 포함) | 🤖 + 👤 | ✅ |
 | 9 | 디자인 다듬기, 모바일 대응, 빈 목록 안내, 입력 오류 메시지 | 🤖 | ✅ |
 | 10 | GitHub에 올리기 (`.env` 제외 확인) | 🤖 + 👤 | ✅ https://github.com/rnonkseal/article-bookmark |
-| 11 | Vercel 배포, 환경변수 등록 | 👤 | 🔄 다음 차례 |
-| 12 | 배포 주소에서 최종 테스트 | 👤 | ⬜ |
+| 11 | Vercel 배포, 환경변수 등록 | 👤 | ✅ https://rnonkseal-article-bookmark.vercel.app |
+| 12 | 배포 주소에서 최종 테스트 | 👤 | ✅ |
 
 ---
 

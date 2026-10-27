@@ -2,7 +2,8 @@
 
 수업이나 리포트를 준비하면서 읽은 사회문제 기사를 한곳에 모아 정리하는 웹 앱입니다.
 
-- **배포 주소**: (Vercel 배포 후 추가 예정)
+- **배포 주소**: https://rnonkseal-article-bookmark.vercel.app
+- **GitHub 저장소**: https://github.com/rnonkseal/article-bookmark
 
 ## 주요 기능
 
@@ -22,7 +23,7 @@
 - **Next.js 16** (App Router, Server Actions), React 19, JavaScript
 - **Tailwind CSS 4**
 - **Neon** (서버리스 PostgreSQL), `@neondatabase/serverless`
-- **Vercel** (배포)
+- **Vercel** (배포, 실행 지역: 싱가포르 `sin1` — Neon DB와 같은 지역)
 
 ## 프로젝트 구조
 
